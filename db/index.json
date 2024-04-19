@@ -1,0 +1,103 @@
+{
+  "movies": [
+    {
+      "title": "A Shrek 1 ",
+      "genre": "animation",
+      "country": "USA",
+      "director": "Andrew Adamson",
+      "ageRestriction": "6",
+      "poster": "https://i.ebayimg.com/images/g/eqkAAOSwY3tbOvT5/s-l1600.jpg",
+      "trailerURL": "https://www.youtube.com/watch?v=CwXOrWvPBPk&ab_channel=RottenTomatoesClassicTrailers",
+      "description": "In a bid to get his land back, Shrek agrees to retrieve Princess Fiona for the fairytale-hating Lord Farquaad of Duloc, but falls in love with her on the way.",
+      "id": "1"
+    },
+    {
+      "title": "Z Shrek 2",
+      "genre": "animation",
+      "country": "USA",
+      "director": "Andrew Adamson",
+      "ageRestriction": "20",
+      "poster": "https://m.media-amazon.com/images/I/51S092xuYYS._AC_UF894,1000_QL80_.jpg",
+      "trailerURL": "https://www.youtube.com/watch?v=CwXOrWvPBPk&ab_channel=RottenTomatoesClassicTrailers",
+      "description": "In a bid to get his land back, Shrek agrees to retrieve Princess Fiona for the fairytale-hating Lord Farquaad of Duloc, but falls in love with her on the way. UPDATED",
+      "id": "2"
+    },
+    {
+      "title": "Shrek 2",
+      "genre": "animation",
+      "country": "USA",
+      "director": "Andrew Adamson",
+      "ageRestriction": "5",
+      "poster": "https://m.media-amazon.com/images/I/51S092xuYYS._AC_UF894,1000_QL80_.jpg",
+      "trailerURL": "https://www.youtube.com/watch?v=CwXOrWvPBPk&ab_channel=RottenTomatoesClassicTrailers",
+      "description": "In a bid to get his land back, Shrek agrees to retrieve Princess Fiona for the fairytale-hating Lord Farquaad of Duloc, but falls in love with her on the way. UPDATED",
+      "id": "3"
+    }
+  ],
+  "genres": [
+    {
+      "id": "1",
+      "name": "animation"
+    },
+    {
+      "id": "2",
+      "name": "drama"
+    },
+    {
+      "id": "3",
+      "name": "comedy"
+    },
+    {
+      "id": "4",
+      "name": "horror"
+    },
+    {
+      "id": "5",
+      "name": "fantasy"
+    }
+  ],
+  "users": [
+    {
+      "id": "1",
+      "username": "wehw4h",
+      "password": "wehw4h",
+      "email": "wehw4h",
+      "isLoggedIn": false
+    },
+    {
+      "id": "652f",
+      "username": "dcfs",
+      "password": "l@mail.ru",
+      "email": "123",
+      "isLoggedIn": false
+    },
+    {
+      "id": "237b",
+      "username": "",
+      "password": "",
+      "email": "",
+      "isLoggedIn": false
+    },
+    {
+      "id": "cad7",
+      "username": "ecdacf",
+      "password": "l@mail.ru",
+      "email": "123",
+      "isLoggedIn": false
+    },
+    {
+      "id": "32f7",
+      "username": "dfrvgf",
+      "password": "quliyevarena926@gmail.com",
+      "email": "fgv",
+      "isLoggedIn": false
+    },
+    {
+      "id": "6936",
+      "username": "efg",
+      "password": "quliyevarena926@gmail.com",
+      "email": "123w",
+      "isLoggedIn": false
+    }
+  ]
+}
