@@ -1,5 +1,4 @@
-
-import { getAll, deleteOne, getOne, update } from "./API/requests/index.js";
+import { getAll, deleteOne, getOne, update, post } from "./API/requests/index.js";
 import { endpoints } from "./API/constants.js";
 
 const moviesWrapper = document.querySelector(".movies-wrapper");
@@ -20,14 +19,13 @@ const usernamenavlink = document.getElementById("username-navlink");
 const navusername = document.querySelector(".username-nav");
 const lockIco = document.querySelector(".fa-lock");
 
-
 window.addEventListener("load", () => {
   getAll(endpoints.movies).then((res) => {
     renderCards(res.data);
   });
   if (!localStorage.getItem('userID')) {
-    localStorage.setItem('userID', JSON.stringify([]));
-}
+    localStorage.setItem('userID', null);
+  }
   getAll(endpoints.users).then((res) => {
     isLoggedinFun(res.data);
   })
@@ -37,7 +35,7 @@ function renderCards(arr) {
 
   moviesWrapper.innerHTML = "";
   arr.forEach((movie) => {
-    moviesWrapper.innerHTML += `  <div class="col-lg-3 col-md-6 col-sm-12" data-id=${movie.id} data-editing="false">
+    moviesWrapper.innerHTML += `   <div class="col-lg-3 col-md-6 col-sm-12" data-id=${movie.id} data-editing="false">
         <div class="card">
             <div class="card-img">
                 <img class="card-img-top"
@@ -48,26 +46,24 @@ function renderCards(arr) {
             <div class="card-body">
                 <h3 class="card-title">${movie.title}</h3>
                 <div class="d-flex justify-content-between align-items-center">
-                    <button class="btn btn-outline-secondary mb-0">click for trailer</button> <br>
+                    <button onclick="getEmbedCode()" class="btn btn-outline-secondary mb-0">click for trailer</button> <br>
                     <div class="age-restriction">
                         <span>${movie.ageRestriction}+</span>
                     </div>
                 </div>
                 <hr>
-                <!-- <iframe width="935" height="526" src="https://www.youtube.com/embed/CwXOrWvPBPk"
-                    frameborder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
-
                     <div class="d-flex gap-2 ">
                 <a href="detail.html?id=${movie.id}" class="btn btn-outline-info info-btn">
                     <i class="fa-solid fa-circle-info"></i>
                 </a>
-                <button class="btn btn-outline-primary edit-btn d-none"  data-bs-toggle="modal" data-bs-target="#editModal">
+                <button  class="btn btn-outline-primary edit-btn d-none"  data-bs-toggle="modal" data-bs-target="#editModal">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button class="btn btn-outline-danger delete-btn d-none">
+                <button  class="btn btn-outline-danger delete-btn d-none">
                     <i class="fa-solid fa-trash"></i>
+                </button>
+                <button class="btn btn-outline-danger wish-btn d-none">
+                    <i class="far fa-heart"></i>
                 </button></div>
             </div>
         </div>
@@ -176,10 +172,49 @@ sortSelectOption.addEventListener('change', async (e) => {
 
 
 
-const userIDArr = JSON.parse(localStorage.getItem('userID'));
+const userIDArr = localStorage.getItem('userID');
+
+//wishlist start
+function FavoriteButtonClick(movieId, loggedinuser) {
+  return function (e) {
+    const icon = e.currentTarget.querySelector("i");
+    const isFavorite = loggedinuser.favorites.some(fav => fav.id === movieId);
+    
+    if (!isFavorite) {
+      loggedinuser.favorites.push({ id: movieId });
+      icon.classList.replace("far", "fa-solid");
+    } else {
+      const index = loggedinuser.favorites.findIndex(fav => fav.id === movieId);
+      loggedinuser.favorites.splice(index, 1);
+      icon.classList.replace("fa-solid", "far");
+    }
+
+    update(endpoints.users, loggedinuser.id, loggedinuser).then(() => {
+      getAll(endpoints.users).then((res) => {
+        isLoggedinFun(res.data);
+      });
+    });
+  };
+}
+
+function addFavoriteButtonListeners(loggedinuser) {
+  const wishBtns = document.querySelectorAll(".wish-btn");
+  wishBtns.forEach((wishbtn) => {
+    const movieId = wishbtn.closest(".col-lg-3").getAttribute("data-id");
+    const icon = wishbtn.querySelector("i");
+    const isFavorite = loggedinuser.favorites.some(fav => fav.id === movieId);
+    if (isFavorite) {
+      icon.classList.replace('far', 'fa-solid');
+    } else {
+      icon.classList.replace('fa-solid', 'far');
+    }
+    wishbtn.classList.replace('d-none', 'd-flex');
+    wishbtn.addEventListener('click', FavoriteButtonClick(movieId, loggedinuser));
+  });
+}
 
 function isLoggedinFun(usersarr) {
- 
+  if (userIDArr != null) {
     const loggedinuserlocal = userIDArr.toString();
     const loggedinuser = usersarr.find((user) => user.id === loggedinuserlocal);
     if (loggedinuser) {
@@ -188,11 +223,10 @@ function isLoggedinFun(usersarr) {
       usernamenavlink.classList.replace('d-none', 'd-flex');
       logoutnavlink.classList.replace('d-none', 'd-flex');
       navusername.innerHTML = loggedinuser.username;
+      
       if (loggedinuser.isAdmin) {
         lockIco.classList.replace('d-none', 'd-block');
         addLink.classList.replace('d-none', 'd-flex');
-
-        // Show delete and edit buttons
         const deleteBtns = document.querySelectorAll(".delete-btn");
         deleteBtns.forEach((btn) => {
           btn.classList.replace('d-none', 'd-block');
@@ -203,16 +237,31 @@ function isLoggedinFun(usersarr) {
           btn.classList.replace('d-none', 'd-flex');
         });
       }
-    } 
-   else {
+      else{
+        addFavoriteButtonListeners(loggedinuser);
+
+      }
+    }
+  } else {
     console.log("Please Login");
   }
 }
 
-logoutnavlink.addEventListener('click',()=>{
-  localStorage.setItem('userID', JSON.stringify([]));
+logoutnavlink.addEventListener('click', () => {
+  localStorage.setItem('userID', JSON.stringify(null));
   registernavlink.classList.remove('d-none')
   loginnavlink.classList.remove('d-none')
   usernamenavlink.classList.replace('d-flex', 'd-none')
   logoutnavlink.classList.replace('d-flex', 'd-none')
-})
+  const wishBtns = document.querySelectorAll(".wish-btn");
+  wishBtns.forEach((wishbtn) => {
+    wishbtn.classList.replace("d-flex", "d-none")
+  })
+  Swal.fire({
+    position: "top-end",
+    icon: "success",
+    title: "you are logged out",
+    showConfirmButton: false,
+    timer: 1500
+  });
+});

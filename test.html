@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YouTube Embed</title>
+</head>
+<body>
+    <button onclick="getEmbedCode()">Embed Kodunu Al</button>
+    <div id="embedContainer"></div>
+
+    <script>
+        async function getEmbedCode() {
+            const youtubeLink = 'https://youtu.be/cYGfs7-J0tw'
+    
+            const endpoint = `https://www.youtube.com/oembed?url=${encodeURIComponent(youtubeLink)}&format=json`;
+
+            try {
+                // API'ye istek yap
+                const response = await fetch(endpoint);
+                // Yanıtı JSON olarak al
+                const data = await response.json();
+                // Embed kodunu göster
+                document.getElementById('embedContainer').innerHTML = data.html;
+                console.log(data)
+            } catch (error) {
+                console.error('Hata:', error);
+                alert('Bir hata oluştu, lütfen tekrar deneyin.');
+            }
+        }
+    </script>
+</body>
+</html>

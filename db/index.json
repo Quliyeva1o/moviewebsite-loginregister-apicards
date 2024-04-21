@@ -32,6 +32,30 @@
       "trailerURL": "https://www.youtube.com/watch?v=CwXOrWvPBPk&ab_channel=RottenTomatoesClassicTrailers",
       "description": "In a bid to get his land back, Shrek agrees to retrieve Princess Fiona for the fairytale-hating Lord Farquaad of Duloc, but falls in love with her on the way. UPDATED",
       "id": "3"
+    },
+    {
+      "id": "339d",
+      "title": "b xhbhxx",
+      "genre": "xx",
+      "country": "x",
+      "director": "x",
+      "ageRestriction": "8",
+      "poster": "x",
+      "description": "x",
+      "releaserYear": "x",
+      "trailerURL": "xx"
+    },
+    {
+      "id": "0e1e",
+      "title": "b xhbhxx",
+      "genre": "xx",
+      "country": "x",
+      "director": "x",
+      "ageRestriction": "8",
+      "poster": "x",
+      "description": "x",
+      "releaserYear": "x",
+      "trailerURL": "xx"
     }
   ],
   "genres": [
@@ -58,31 +82,61 @@
   ],
   "users": [
     {
-      "id": "e6fb",
-      "fullName": "ss",
-      "username": "rena1o",
-      "password": "salamS2",
-      "email": "tu6xru353@code.edu.az",
-      "isAdmin": false,
-      "favorites": []
-    },
-    {
-      "id": "1b3c",
+      "id": "7f2a",
       "fullName": "rena",
       "username": "renaadmin",
-      "password": "renaS2",
-      "email": "x@gmail.com",
-      "isAdmin": false,
+      "password": "Admin123",
+      "email": "tu6xru353@code.edu.az",
+      "isAdmin": true,
       "favorites": []
     },
     {
-      "id": "918e",
-      "fullName": "f",
-      "username": "renaAdmin1",
-      "password": "salamS2",
-      "email": "x@gmail.comd",
-      "isAdmin": true,
-      "favorites": []
+      "id": "8f26",
+      "fullName": "rena",
+      "username": "rena1o",
+      "password": "Salam123",
+      "email": "renaquliyevva@gmail.com",
+      "isAdmin": false,
+      "favorites": [
+        {
+          "id": "339d"
+        }
+      ]
+    },
+    {
+      "id": "0f19",
+      "fullName": "safus",
+      "username": "safus123",
+      "password": "Safus123",
+      "email": "safus@gmail.com",
+      "isAdmin": false,
+      "favorites": [
+        {
+          "id": "339d"
+        },
+        {
+          "id": "1"
+        },
+        {
+          "id": "0e1e"
+        }
+      ]
+    },
+    {
+      "id": "2b4c",
+      "fullName": "kenan",
+      "username": "kenanrzayev",
+      "password": "Kenan123",
+      "email": "kenan@gmail.com",
+      "isAdmin": false,
+      "favorites": [
+        {
+          "id": "2"
+        },
+        {
+          "id": "1"
+        }
+      ]
     }
   ]
 }

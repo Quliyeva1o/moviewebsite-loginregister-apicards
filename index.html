@@ -43,7 +43,28 @@
     </header>
     <main>
 
+        <script>
+            async function getEmbedCode() {
+                const youtubeLink = 'https://youtu.be/cYGfs7-J0tw'
+        
+                const endpoint = `https://www.youtube.com/oembed?url=${encodeURIComponent(youtubeLink)}&format=json`;
+    
+                try {
+                    // API'ye istek yap
+                    const response = await fetch(endpoint);
+                    // Yanıtı JSON olarak al
+                   const data = await response.json(); 
+                    // Embed kodunu göster
+                    document.getElementById('embedContainer').innerHTML = data.html;
+                   
+                } catch (error) {
+                    console.error('Hata:', error);
+                    alert('Bir hata oluştu, lütfen tekrar deneyin.');
+                }
+            }
+        </script>
 
+        <div id="embedContainer"></div>
         <section id="movies" class="mt-5">
             <div class="container">
                 <div class="sort-by-name d-flex mb-3 align-items-center gap-4">
@@ -61,7 +82,7 @@
         </section>
         <div class="loader"></div>
     </main>
-
+   
     <!-- Edit Modal -->
     <div class="modal fade" id="editModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">

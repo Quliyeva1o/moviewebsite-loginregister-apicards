@@ -8,6 +8,8 @@ export class Movie {
         this.poster = poster;
         this.description = description;
         this.releaserYear = releaserYear;
-        const trailerURL = trailerURL.slice(trailerURL.indexOf("youtu.be/") + 9);
+        this.trailerURL = trailerURL;
+
+        // const trailerURL = trailerURL.slice(trailerURL.indexOf("youtu.be/") + 9);
     }
 }  

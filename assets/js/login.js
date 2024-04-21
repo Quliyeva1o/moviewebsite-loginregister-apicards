@@ -11,7 +11,7 @@ const eye = document.getElementById('eye')
 
 window.addEventListener('DOMContentLoaded', () => {
     if (!localStorage.getItem('userID')) {
-        localStorage.setItem('userID', JSON.stringify([]));
+        localStorage.setItem('userID', null);
     }
 })
 
@@ -42,9 +42,7 @@ function loginUser(userarr) {
                 if (registereduser.password == password.value) {
                     const loggedinuser = userarr.find((user) => user.username === username.value && user.password === password.value)
                     const loggedinid = loggedinuser.id
-                    const userIDArr = JSON.parse(localStorage.getItem('userID'));
-                    userIDArr.push(loggedinid)
-                    localStorage.setItem('userID', JSON.stringify(userIDArr))
+                    localStorage.setItem('userID', loggedinid)
                     Swal.fire({
                         position: "top-end",
                         icon: "success",
@@ -54,6 +52,16 @@ function loginUser(userarr) {
                     });
                     window.location.replace("index.html")
 
+                }
+
+
+                else {
+                    Swal.fire({
+                            icon: "error",
+                            title: "password is false",
+                            showConfirmButton: true,
+                            timer: 1500
+                        });
                 }
             }
             else {

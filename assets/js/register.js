@@ -17,6 +17,7 @@ const usedMailVal = document.querySelector(".usedMailVal")
 const confirmpassVal = document.querySelector(".confirmpass")
 const passregval = document.querySelector(".passregval")
 const passmatchval = document.querySelector(".passmatch")
+const mailregval = document.querySelector(".mailregval")
 
 getAll(endpoints.users).then((res) => {
     registerBtn.addEventListener("click", (e) => {
@@ -31,84 +32,86 @@ function validateUsername(username) {
 
 function validatePassword(password) {
     return /^(?=.*[A-Z])(?=.*\d).{5,}$/.test(password);
-
 }
 
-function validateInputs(newUser, allUsersArr) {
-    if (!validateUsername(newUser.fullName)) {
-        fullnameVal.classList.replace('d-none', 'd-flex');
-    }
-
-    if (newUser.username === "") {
-        usernamerequired.classList.replace('d-none', 'd-flex');
-    }
-    if (newUser.email === "") {
-        emailRequired.classList.replace('d-none', 'd-flex');
-    }
-    if (newUser.password === "") {
-        passwRequired.classList.replace('d-none', 'd-flex');
-    }
-    if (confpasswordInp.value === "") {
-        confirmpassVal.classList.replace('d-none', 'd-flex');
-    }
-    if (!validatePassword(newUser.password)) {
-        passregval.classList.replace('d-none', 'd-flex');
-    }
-    if (allUsersArr.some(user => user.email === newUser.email)) {
-        usedMailVal.classList.replace('d-none', 'd-flex');
-    }
-    if (passwordInp.value != confpasswordInp.value) {
-        passmatchval.classList.replace('d-none', 'd-flex')
-    }
-
-    else {
-        return true;
-
-    }
+function validateEmail(email) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function registerUser(allUsersArr) {
-    const newUser = new User(usernameInp.value, fullName.value, emailInp.value, passwordInp.value, isAdmin.checked);
+    let hasError = false; // Flag to track if there's any error
 
-    if (validateInputs(newUser, allUsersArr)) {
-        if (allUsersArr.some(user => user.username === newUser.username)) {
-            Swal.fire({
-                icon: "error",
-                title: "Username is already taken",
-            });
-        } else {
-            post(endpoints.users, newUser)
-                .then(response => {
-                    console.log("User registered successfully:", response);
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Registration Successful',
-                        text: 'You have been registered successfully!',
-                        confirmButtonText: 'OK'
-                    });
-                    window.location.replace("login.html");
-                })
-                .catch(error => {
-                    console.error("Registration failed:", error);
-                    Swal.fire({
-                        icon: 'error',
-                        title: 'Registration Failed',
-                        text: 'An error occurred while processing your registration. Please try again later.',
-                        confirmButtonText: 'OK'
-                    });
-                });
-        }
-    }
-    else {
+    const newUser = new User(usernameInp.value, fullName.value, emailInp.value, passwordInp.value, isAdmin.checked);
+    
+    // Validation checks
+    if (allUsersArr.some(user => user.username === newUser.username)) {
         Swal.fire({
-            icon: 'error',
-            title: 'Registration Failed',
-            text: 'invalid inputs',
-            confirmButtonText: 'OK'
+            icon: "error",
+            title: "Username is already taken",
         });
+        hasError = true; // Set error flag
+    }
+    if (!validateUsername(newUser.fullName)) {
+        fullnameVal.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (newUser.username === "") {
+        usernamerequired.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (newUser.email === "") {
+        emailRequired.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (newUser.password === "") {
+        passwRequired.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (confpasswordInp.value === "") {
+        confirmpassVal.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (!validatePassword(newUser.password)) {
+        passregval.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (!validateEmail(newUser.email)) {
+        mailregval.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (allUsersArr.some(user => user.email === newUser.email)) {
+        usedMailVal.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+    if (passwordInp.value != confpasswordInp.value) {
+        passmatchval.classList.replace('d-none', 'd-flex');
+        hasError = true; // Set error flag
+    }
+
+    // Proceed only if no errors
+    if (!hasError) {
+        post(endpoints.users, newUser)
+            .then(response => {
+                console.log("User registered successfully:", response);
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Registration Successful',
+                    text: 'You have been registered successfully!',
+                    confirmButtonText: 'OK'
+                });
+                window.location.replace("login.html");
+            })
+            .catch(error => {
+                console.error("Registration failed:", error);
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Registration Failed',
+                    text: 'An error occurred while processing your registration. Please try again later.',
+                    confirmButtonText: 'OK'
+                });
+            });
     }
 }
-
 
 usernameInp.addEventListener("keyup", () => {
     usernamerequired.classList.replace('d-flex', 'd-none');

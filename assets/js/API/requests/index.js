@@ -8,7 +8,7 @@ export async function getAll(endpoint) {
     data: null,
     error: null,
   };
-  await axios
+  await axios 
     .get(API_BASE_URL + endpoint)
     .then((result) => {
       obj.data = result.data;
