@@ -1,7 +1,9 @@
 import API_BASE_URL, { endpoints } from "../constants.js";
+const loader = document.querySelector(".loader")
 
 //get All
 export async function getAll(endpoint) {
+ 
   let obj = {
     data: null,
     error: null,
@@ -13,7 +15,10 @@ export async function getAll(endpoint) {
     })
     .catch((err) => {
       obj.error = err;
-    });
+    })
+    .finally(() => {
+      loader.classList.add("d-none")
+  });
 
   return obj;
 }

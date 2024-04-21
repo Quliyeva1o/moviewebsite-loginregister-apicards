@@ -33,13 +33,17 @@
             </div>
             <ul class="links">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="add.html">Add</a></li>
-                <li><a href="register.html">Register</a></li>
-                <li><a href="login.html">Login</a></li>
+                <li id="addLink" class="d-none"><a href="add.html">Add</a></li>
+                <li id="registernavlink"><a href="register.html">Register</a></li>
+                <li id="username-navlink" class="d-none text-white align-items-center ">| welcome <span class="username-nav px-1"> </span><i class="fa-solid fa-lock p-1 d-none"></i> |</li>
+                <li id="loginnavlink"><a href="login.html">Login</a></li>
+                <li id="logoutnavlink" class="d-none m-auto"><span class="text-white" ><i class="fa-solid fa-right-from-bracket"></i></span></li>
             </ul>
         </div>
     </header>
     <main>
+
+
         <section id="movies" class="mt-5">
             <div class="container">
                 <div class="sort-by-name d-flex mb-3 align-items-center gap-4">
@@ -48,13 +52,14 @@
                         <option value="" disabled selected>Sort by Title</option>
                         <option value="ascending">A-Z</option>
                         <option value="descending">Z-A</option>
-                      </select>
+                    </select>
                 </div>
                 <div class="row movies-wrapper">
 
                 </div>
             </div>
         </section>
+        <div class="loader"></div>
     </main>
 
     <!-- Edit Modal -->
@@ -69,17 +74,21 @@
                     <form id="edit-form">
                         <input class="form-control mb-2" id="title" type="text" placeholder="update movie title">
                         <input class="form-control mb-2" id="poster" type="text" placeholder="update movie poster">
-                        <input class="form-control mb-2" id="trailerURL" type="text" placeholder="update movie trailer URL">
+                        <input class="form-control mb-2" id="trailerURL" type="text"
+                            placeholder="update movie trailer URL">
                         <input class="form-control mb-2" id="genre" type="text" placeholder="update movie genre">
-                        <input class="form-control mb-2" id="age" type="number" min="0" placeholder="update movie age restriction">
+                        <input class="form-control mb-2" id="age" type="number" min="0"
+                            placeholder="update movie age restriction">
                         <input class="form-control mb-2" id="country" type="text" placeholder="update movie country">
                         <input class="form-control" id="director" type="text" placeholder="update movie director">
-                        <textarea class="form-control" rows="3" id="desc" type="text" placeholder="update movie description"></textarea>
+                        <textarea class="form-control" rows="3" id="desc" type="text"
+                            placeholder="update movie description"></textarea>
                     </form>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                    <button form="edit-form" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Update</button>
+                    <button form="edit-form" type="submit" class="btn btn-primary"
+                        data-bs-dismiss="modal">Update</button>
                 </div>
             </div>
         </div>

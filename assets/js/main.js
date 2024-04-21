@@ -12,16 +12,29 @@ const ageInp = document.querySelector("#age");
 const countryInp = document.querySelector("#country");
 const directorInp = document.querySelector("#director");
 const descTextArea = document.querySelector("#desc");
+const registernavlink = document.getElementById("registernavlink");
+const loginnavlink = document.getElementById("loginnavlink");
+const addLink = document.getElementById("addLink");
+const logoutnavlink = document.getElementById("logoutnavlink");
+const usernamenavlink = document.getElementById("username-navlink");
+const navusername = document.querySelector(".username-nav");
+const lockIco = document.querySelector(".fa-lock");
 
 
 window.addEventListener("load", () => {
-  console.log('test')
   getAll(endpoints.movies).then((res) => {
     renderCards(res.data);
   });
+  if (!localStorage.getItem('userID')) {
+    localStorage.setItem('userID', JSON.stringify([]));
+}
+  getAll(endpoints.users).then((res) => {
+    isLoggedinFun(res.data);
+  })
 });
 
 function renderCards(arr) {
+
   moviesWrapper.innerHTML = "";
   arr.forEach((movie) => {
     moviesWrapper.innerHTML += `  <div class="col-lg-3 col-md-6 col-sm-12" data-id=${movie.id} data-editing="false">
@@ -45,15 +58,17 @@ function renderCards(arr) {
                     frameborder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                     referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe> -->
+
+                    <div class="d-flex gap-2 ">
                 <a href="detail.html?id=${movie.id}" class="btn btn-outline-info info-btn">
                     <i class="fa-solid fa-circle-info"></i>
                 </a>
-                <button class="btn btn-outline-primary edit-btn"  data-bs-toggle="modal" data-bs-target="#editModal">
+                <button class="btn btn-outline-primary edit-btn d-none"  data-bs-toggle="modal" data-bs-target="#editModal">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
-                <button class="btn btn-outline-danger delete-btn">
+                <button class="btn btn-outline-danger delete-btn d-none">
                     <i class="fa-solid fa-trash"></i>
-                </button>
+                </button></div>
             </div>
         </div>
     </div>`;
@@ -100,7 +115,7 @@ function renderCards(arr) {
         directorInp.value = movie.director;
         descTextArea.value = movie.description;
 
-        this.closest('.col-lg-3').setAttribute('data-editing','true');
+        this.closest('.col-lg-3').setAttribute('data-editing', 'true');
       });
     });
   });
@@ -111,24 +126,24 @@ editForm.addEventListener("submit", function (e) {
 
   const cards = document.querySelectorAll('.col-lg-3');
   let id;
-  Array.from(cards).map((card)=>{
-    if (card.getAttribute('data-editing')=='true') {
+  Array.from(cards).map((card) => {
+    if (card.getAttribute('data-editing') == 'true') {
       id = card.getAttribute('data-id');
-      card.setAttribute('data-editing','false');
+      card.setAttribute('data-editing', 'false');
     }
   });
 
   const updatedMovie = {
-    title: titleInp.value, 
-    genre: genreInp.value, 
-    country: countryInp.value, 
+    title: titleInp.value,
+    genre: genreInp.value,
+    country: countryInp.value,
     director: directorInp.value,
     ageRestriction: ageInp.value,
     poster: posterInp.value,
     trailerURL: trailerURLInp.value,
     description: descTextArea.value
   }
-  update(endpoints.movies, id, updatedMovie).then(()=>{
+  update(endpoints.movies, id, updatedMovie).then(() => {
     Swal.fire({
       position: "top-end",
       icon: "success",
@@ -136,7 +151,7 @@ editForm.addEventListener("submit", function (e) {
       showConfirmButton: false,
       timer: 1500
     });
-    getAll(endpoints.movies).then((res)=>{
+    getAll(endpoints.movies).then((res) => {
       renderCards(res.data);
     });
   })
@@ -144,18 +159,60 @@ editForm.addEventListener("submit", function (e) {
 
 
 //sort
-const sortSelectOption =document.querySelector('.sort-by-name-select');
+const sortSelectOption = document.querySelector('.sort-by-name-select');
 
-sortSelectOption.addEventListener('change',async(e)=>{
+sortSelectOption.addEventListener('change', async (e) => {
   console.log('e: ', e.target.value);
   let res = await getAll(endpoints.movies);
   if (e.target.value == 'ascending') {
-    let sortedArr = [...res.data].sort((x,y)=>x.title.localeCompare(y.title));
+    let sortedArr = [...res.data].sort((x, y) => x.title.localeCompare(y.title));
     renderCards(sortedArr);
   }
-  else if(e.target.value == 'descending'){
-    let sortedArr = [...res.data].sort((x,y)=>y.title.localeCompare(x.title));
+  else if (e.target.value == 'descending') {
+    let sortedArr = [...res.data].sort((x, y) => y.title.localeCompare(x.title));
     renderCards(sortedArr);
   }
 });
 
+
+
+const userIDArr = JSON.parse(localStorage.getItem('userID'));
+
+function isLoggedinFun(usersarr) {
+ 
+    const loggedinuserlocal = userIDArr.toString();
+    const loggedinuser = usersarr.find((user) => user.id === loggedinuserlocal);
+    if (loggedinuser) {
+      registernavlink.classList.add('d-none');
+      loginnavlink.classList.add('d-none');
+      usernamenavlink.classList.replace('d-none', 'd-flex');
+      logoutnavlink.classList.replace('d-none', 'd-flex');
+      navusername.innerHTML = loggedinuser.username;
+      if (loggedinuser.isAdmin) {
+        lockIco.classList.replace('d-none', 'd-block');
+        addLink.classList.replace('d-none', 'd-flex');
+
+        // Show delete and edit buttons
+        const deleteBtns = document.querySelectorAll(".delete-btn");
+        deleteBtns.forEach((btn) => {
+          btn.classList.replace('d-none', 'd-block');
+        });
+
+        const editBtns = document.querySelectorAll(".edit-btn");
+        editBtns.forEach((btn) => {
+          btn.classList.replace('d-none', 'd-flex');
+        });
+      }
+    } 
+   else {
+    console.log("Please Login");
+  }
+}
+
+logoutnavlink.addEventListener('click',()=>{
+  localStorage.setItem('userID', JSON.stringify([]));
+  registernavlink.classList.remove('d-none')
+  loginnavlink.classList.remove('d-none')
+  usernamenavlink.classList.replace('d-flex', 'd-none')
+  logoutnavlink.classList.replace('d-flex', 'd-none')
+})

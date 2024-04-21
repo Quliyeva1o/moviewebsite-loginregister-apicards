@@ -58,46 +58,31 @@
   ],
   "users": [
     {
-      "id": "1",
-      "username": "wehw4h",
-      "password": "wehw4h",
-      "email": "wehw4h",
-      "isLoggedIn": false
+      "id": "e6fb",
+      "fullName": "ss",
+      "username": "rena1o",
+      "password": "salamS2",
+      "email": "tu6xru353@code.edu.az",
+      "isAdmin": false,
+      "favorites": []
     },
     {
-      "id": "652f",
-      "username": "dcfs",
-      "password": "l@mail.ru",
-      "email": "123",
-      "isLoggedIn": false
+      "id": "1b3c",
+      "fullName": "rena",
+      "username": "renaadmin",
+      "password": "renaS2",
+      "email": "x@gmail.com",
+      "isAdmin": false,
+      "favorites": []
     },
     {
-      "id": "237b",
-      "username": "",
-      "password": "",
-      "email": "",
-      "isLoggedIn": false
-    },
-    {
-      "id": "cad7",
-      "username": "ecdacf",
-      "password": "l@mail.ru",
-      "email": "123",
-      "isLoggedIn": false
-    },
-    {
-      "id": "32f7",
-      "username": "dfrvgf",
-      "password": "quliyevarena926@gmail.com",
-      "email": "fgv",
-      "isLoggedIn": false
-    },
-    {
-      "id": "6936",
-      "username": "efg",
-      "password": "quliyevarena926@gmail.com",
-      "email": "123w",
-      "isLoggedIn": false
+      "id": "918e",
+      "fullName": "f",
+      "username": "renaAdmin1",
+      "password": "salamS2",
+      "email": "x@gmail.comd",
+      "isAdmin": true,
+      "favorites": []
     }
   ]
 }

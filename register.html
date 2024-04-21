@@ -19,7 +19,7 @@
     <!-- header css -->
     <link rel="stylesheet" href="./assets/css/header.css">
     <link rel="stylesheet" href="./assets/css/index.css">
-    <title>Home Page</title>
+    <title>Register Page</title>
 </head>
 
 <body>
@@ -46,10 +46,25 @@
             <h1>Register</h1>
             <div class="form-group ">
                 <input type="username" class="form-control mt-3 " id="username" placeholder="User name">
+                <span class="usernamerequired d-none text-danger">username is required</span>
+                <input type="fullname" class="form-control mt-3 " id="fullname" placeholder="Full name">
+               <span class="fullname-val d-none text-danger">full name can only contain letters</span>
                 <input type="email" class="form-control mt-3 " id="email" placeholder="Email">
+                <span class="emailrequired d-none text-danger">email is required</span>
+                <span class="usedMailVal d-none text-danger">email is already used</span>
+
                 <input type="password" class="form-control mt-3 " id="password" placeholder="Password">
-              
+                <span class="passwrequired d-none text-danger">password is required</span>
+                <span class="passregval d-none text-danger">invalid password (min 5 chars,1uppercase letter,1 number )</span>
+                <input type="password" class="form-control mt-3 " id="confpassword" placeholder="confirm password">
+                <span class="confirmpass d-none text-danger">confirm password is required</span>
+                <span class="passmatch d-none text-danger">confirm password & password doesnt't match</span>
+                <input type="checkbox" id="isAdmin"><span>are you admin?</span>
+
             </div>
+            <a href="login.html" class="d-block text-secondary">Already have an account?</a>
+            <div class="loader"></div>
+
 
             <button type="submit" class="btn btn-primary mt-3" id="registerBtn">Register</button>
         </form>
