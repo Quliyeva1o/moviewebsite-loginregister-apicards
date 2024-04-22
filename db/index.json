@@ -34,28 +34,16 @@
       "id": "3"
     },
     {
-      "id": "339d",
-      "title": "b xhbhxx",
-      "genre": "xx",
-      "country": "x",
-      "director": "x",
-      "ageRestriction": "8",
-      "poster": "x",
-      "description": "x",
-      "releaserYear": "x",
-      "trailerURL": "xx"
-    },
-    {
-      "id": "0e1e",
-      "title": "b xhbhxx",
-      "genre": "xx",
-      "country": "x",
-      "director": "x",
-      "ageRestriction": "8",
-      "poster": "x",
-      "description": "x",
-      "releaserYear": "x",
-      "trailerURL": "xx"
+      "id": "9c10",
+      "title": "barbie",
+      "genre": "hdsf",
+      "country": "dd",
+      "director": "dd",
+      "ageRestriction": "2",
+      "poster": "https://media.newyorker.com/photos/64baa7a29e87508ed764fdf3/16:9/w_2144,h_1206,c_limit/Brody-Barbie-Review.jpg",
+      "description": "vfdbfb",
+      "releaserYear": "2023",
+      "trailerURL": "https://youtu.be/-aSY4UOIVj0"
     }
   ],
   "genres": [
@@ -99,7 +87,10 @@
       "isAdmin": false,
       "favorites": [
         {
-          "id": "339d"
+          "id": "9c10"
+        },
+        {
+          "id": "3"
         }
       ]
     },
@@ -110,33 +101,7 @@
       "password": "Safus123",
       "email": "safus@gmail.com",
       "isAdmin": false,
-      "favorites": [
-        {
-          "id": "339d"
-        },
-        {
-          "id": "1"
-        },
-        {
-          "id": "0e1e"
-        }
-      ]
-    },
-    {
-      "id": "2b4c",
-      "fullName": "kenan",
-      "username": "kenanrzayev",
-      "password": "Kenan123",
-      "email": "kenan@gmail.com",
-      "isAdmin": false,
-      "favorites": [
-        {
-          "id": "2"
-        },
-        {
-          "id": "1"
-        }
-      ]
+      "favorites": []
     }
   ]
 }

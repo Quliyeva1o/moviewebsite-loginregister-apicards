@@ -26,9 +26,7 @@ window.addEventListener("load", () => {
   if (!localStorage.getItem('userID')) {
     localStorage.setItem('userID', null);
   }
-  getAll(endpoints.users).then((res) => {
-    isLoggedinFun(res.data);
-  })
+
 });
 
 function renderCards(arr) {
@@ -46,7 +44,7 @@ function renderCards(arr) {
             <div class="card-body">
                 <h3 class="card-title">${movie.title}</h3>
                 <div class="d-flex justify-content-between align-items-center">
-                    <button onclick="getEmbedCode()" class="btn btn-outline-secondary mb-0">click for trailer</button> <br>
+                    <button  class="btn btn-outline-secondary mb-0 trailer-btn">click for trailer</button> <br>
                     <div class="age-restriction">
                         <span>${movie.ageRestriction}+</span>
                     </div>
@@ -62,12 +60,57 @@ function renderCards(arr) {
                 <button  class="btn btn-outline-danger delete-btn d-none">
                     <i class="fa-solid fa-trash"></i>
                 </button>
-                <button class="btn btn-outline-danger wish-btn d-none">
+                <button class="btn btn-outline-danger wish-btn d-none align-items-center ">
                     <i class="far fa-heart"></i>
                 </button></div>
             </div>
         </div>
     </div>`;
+
+    getAll(endpoints.users).then((res) => {
+      isLoggedinFun(res.data);
+    })
+    //trailerbtn
+
+    const trailerBtns = document.querySelectorAll(".trailer-btn");
+    trailerBtns.forEach((trailerBtn) => {
+      trailerBtn.addEventListener('click', async (e) => {
+        const userIDArr = localStorage.getItem('userID');
+
+        if (userIDArr != 'null') {
+          const dataid = e.target.closest(".col-lg-3").getAttribute("data-id");
+          try {
+            const res = await getOne(endpoints.movies, dataid);
+            const youtubeLink = res.data[0].trailerURL;
+            const endpoint = `https://www.youtube.com/oembed?url=${encodeURIComponent(youtubeLink)}&format=json`;
+
+            const response = await fetch(endpoint);
+            const data = await response.json();
+
+            document.querySelector('.embeddiv').classList.replace('d-none', 'd-flex');
+            document.getElementById('embedContainer').innerHTML = data.html;
+          } catch (error) {
+            console.error('error:', error);
+            alert('try again');
+          }
+        }
+        else {
+          Swal.fire({
+            icon: "error",
+            title: "please login for watch trailer",
+
+          });
+        }
+      });
+    });
+    document.addEventListener('click', (event) => {
+      const embedDiv = document.getElementById('embedContainer');
+      if (!embedDiv.contains(event.target)) {
+        document.querySelector('.embeddiv').classList.replace('d-flex', 'd-none');
+        document.getElementById('embedContainer').innerHTML = '';
+      }
+    });
+
     //delete buttons
     const deleteBtns = document.querySelectorAll(".delete-btn");
     deleteBtns.forEach((btn) => {
@@ -174,12 +217,12 @@ sortSelectOption.addEventListener('change', async (e) => {
 
 const userIDArr = localStorage.getItem('userID');
 
-//wishlist start
+//wishlist 
 function FavoriteButtonClick(movieId, loggedinuser) {
   return function (e) {
     const icon = e.currentTarget.querySelector("i");
     const isFavorite = loggedinuser.favorites.some(fav => fav.id === movieId);
-    
+
     if (!isFavorite) {
       loggedinuser.favorites.push({ id: movieId });
       icon.classList.replace("far", "fa-solid");
@@ -223,7 +266,7 @@ function isLoggedinFun(usersarr) {
       usernamenavlink.classList.replace('d-none', 'd-flex');
       logoutnavlink.classList.replace('d-none', 'd-flex');
       navusername.innerHTML = loggedinuser.username;
-      
+
       if (loggedinuser.isAdmin) {
         lockIco.classList.replace('d-none', 'd-block');
         addLink.classList.replace('d-none', 'd-flex');
@@ -237,14 +280,41 @@ function isLoggedinFun(usersarr) {
           btn.classList.replace('d-none', 'd-flex');
         });
       }
-      else{
+      else {
+        const sortbyfavbtn =document.querySelector(".sortbyfavbtn")
         addFavoriteButtonListeners(loggedinuser);
+        sortbyfavbtn.classList.replace('d-none','d-flex')
 
+        sortbyfav(loggedinuser)
+
+        
+      
       }
     }
   } else {
     console.log("Please Login");
   }
+}
+
+function sortbyfav(loggedinuser) {
+  getAll(endpoints.movies).then((res) => {
+    const arr = res.data;
+
+    const handleFilterChange = (loggedinuser) => {
+      const selectedOption = filterSelect.value;
+
+      if (selectedOption === 'favorites') {
+        const favoriteMovies = arr.filter(movie => loggedinuser.favorites.some(fav => fav.id === movie.id));
+        renderCards(favoriteMovies);
+      } else {
+        renderCards(arr);
+      }
+    };
+
+    filterSelect.addEventListener('change', () => {
+      handleFilterChange(loggedinuser);
+    });
+  });
 }
 
 logoutnavlink.addEventListener('click', () => {
@@ -253,10 +323,24 @@ logoutnavlink.addEventListener('click', () => {
   loginnavlink.classList.remove('d-none')
   usernamenavlink.classList.replace('d-flex', 'd-none')
   logoutnavlink.classList.replace('d-flex', 'd-none')
+  lockIco.classList.replace('d-block', 'd-none');
+  addLink.classList.replace('d-flex', 'd-none');
   const wishBtns = document.querySelectorAll(".wish-btn");
+  const sortbyfavbtn =document.querySelector(".sortbyfavbtn")
+  sortbyfavbtn.classList.replace('d-flex','d-none')
   wishBtns.forEach((wishbtn) => {
-    wishbtn.classList.replace("d-flex", "d-none")
-  })
+    wishbtn.classList.replace('d-flex', 'd-none');
+  });
+
+  const deleteBtns = document.querySelectorAll(".delete-btn");
+  deleteBtns.forEach((btn) => {
+    btn.classList.replace('d-block', 'd-none');
+  });
+
+  const editBtns = document.querySelectorAll(".edit-btn");
+  editBtns.forEach((btn) => {
+    btn.classList.replace('d-flex', 'd-none');
+  });
   Swal.fire({
     position: "top-end",
     icon: "success",
@@ -265,3 +349,5 @@ logoutnavlink.addEventListener('click', () => {
     timer: 1500
   });
 });
+
+

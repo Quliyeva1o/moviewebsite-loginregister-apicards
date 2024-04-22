@@ -1,5 +1,5 @@
 
-import { post } from "./API/requests/index.js";
+import { post,getAll } from "./API/requests/index.js";
 import { endpoints } from "./API/constants.js";
 import { Movie } from "./classes/movie.js";
 
@@ -22,3 +22,34 @@ addmovieBtn.addEventListener('click', (e) => {
     e.preventDefault()
     post(endpoints.movies, newMovie)
 })
+
+
+getAll(endpoints.users).then((res) => {
+    isLoggedinFun(res.data);
+  })
+
+
+
+
+  function isLoggedinFun(usersarr) {
+    const userIDArr = localStorage.getItem('userID');
+
+    if (userIDArr != "null") {
+      const loggedinuserlocal = userIDArr.toString();
+      const loggedinuser = usersarr.find((user) => user.id === loggedinuserlocal);
+      if (loggedinuser) {
+        
+  
+        if (loggedinuser.isAdmin) {
+         console.log("youareadmin");
+        }
+        else {  
+            window.location.replace("index.html")
+
+        }
+      }
+    } else {
+        window.location.replace("index.html")
+    }
+  }
+  

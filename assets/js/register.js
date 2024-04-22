@@ -18,7 +18,7 @@ const confirmpassVal = document.querySelector(".confirmpass")
 const passregval = document.querySelector(".passregval")
 const passmatchval = document.querySelector(".passmatch")
 const mailregval = document.querySelector(".mailregval")
-
+ 
 getAll(endpoints.users).then((res) => {
     registerBtn.addEventListener("click", (e) => {
         e.preventDefault();
@@ -49,43 +49,43 @@ function registerUser(allUsersArr) {
             icon: "error",
             title: "Username is already taken",
         });
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (!validateUsername(newUser.fullName)) {
         fullnameVal.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (newUser.username === "") {
         usernamerequired.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (newUser.email === "") {
         emailRequired.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (newUser.password === "") {
         passwRequired.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (confpasswordInp.value === "") {
         confirmpassVal.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (!validatePassword(newUser.password)) {
         passregval.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (!validateEmail(newUser.email)) {
         mailregval.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true;
     }
     if (allUsersArr.some(user => user.email === newUser.email)) {
         usedMailVal.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
     if (passwordInp.value != confpasswordInp.value) {
         passmatchval.classList.replace('d-none', 'd-flex');
-        hasError = true; // Set error flag
+        hasError = true; 
     }
 
     // Proceed only if no errors
