@@ -14,7 +14,8 @@ main{
     align-items: center;
 }
 .card-img{
-    height: 300px;
+    height: 100%;
+    width: 90%;
 }
 .card-img img{
     width: 100%;

@@ -54,7 +54,7 @@ function renderCards(arr) {
                 <a href="detail.html?id=${movie.id}" class="btn btn-outline-info info-btn">
                     <i class="fa-solid fa-circle-info"></i>
                 </a>
-                <button  class="btn btn-outline-primary edit-btn d-none"  data-bs-toggle="modal" data-bs-target="#editModal">
+                <button  class="align-items-center btn btn-outline-primary edit-btn d-none"  data-bs-toggle="modal" data-bs-target="#editModal">
                     <i class="fa-solid fa-pen-to-square"></i>
                 </button>
                 <button  class="btn btn-outline-danger delete-btn d-none">
